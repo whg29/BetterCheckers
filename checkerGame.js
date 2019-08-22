@@ -140,7 +140,7 @@ var spaceSE = function(coords) {
 	return [newcol, newrow];
 }
 
-var spaceDirection = function(space, direction) {
+var spaceInDirection = function(space, direction) {
 	let destination = -1;
 	if (direction == "NW") {
 		destination = spaceNW(coords);
@@ -169,7 +169,7 @@ var blackMove = function(space, direction){
 	if ((direction == "SW" || direction == "SE") && !isKing(piece)) {
 		return "Only Kings may move backwards.";
 	}
-	let destination = spaceDirection(space, direction);
+	let destination = spaceInDirection(space, direction);
 	if (destination == -1) {
 		return "Invalid direction."
 	}
@@ -200,7 +200,7 @@ var redMove = function(space, direction){
 	if ((direction == "NW" || direction == "NE") && !isKing(piece)) {
 		return "Only Kings may move backwards.";
 	}
-	let destination = spaceDirection(space, direction);
+	let destination = spaceInDirection(space, direction);
 	if (destination == -1) {
 		return "Invalid direction."
 	}

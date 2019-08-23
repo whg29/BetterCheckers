@@ -1,5 +1,6 @@
-var game = require("./checkerGame.js");
 var express = require("express");
+var game = require("./checkerGame.js");
+game.setup();
 
 var app = express();
 app.use(express.static("."));

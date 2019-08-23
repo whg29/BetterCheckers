@@ -253,11 +253,3 @@ var executeMove = function(color, space, direction) {
 var makeMove = function(color, space, direction) {
 	return {"board": board, "status": gameStatus, "message": executeMove(color, space, direction)};
 }
-
-setup();
-// printBoard();
-console.log(makeMove(BLACK, "c3", "NE").message);
-console.log(makeMove(RED, "f6", "SW").message);
-console.log(makeMove(BLACK, "b2", "NE"));
-console.log(makeMove(BLACK, "d4", "NE"));
-

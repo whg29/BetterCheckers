@@ -225,7 +225,7 @@ var executeMove = function(color, space, direction) {
 	let otherSpace = spaceContents(destination);
 	if (otherSpace == EMPTY) {
 		if (checkForcedCaptures()) {
-			return "You cannot make this move while you have a capturing move available to you.";
+			return "You cannot make a non-capturing move while you have a capturing move available to you.";
 		}
 		makeNonCapturingMove(coords, destination);
 	} else if (pieceColor(otherSpace) == color) {
@@ -253,3 +253,10 @@ var executeMove = function(color, space, direction) {
 var makeMove = function(color, space, direction) {
 	return {"board": board, "status": gameStatus, "message": executeMove(color, space, direction)};
 }
+
+exports.BLACK = BLACK;
+exports.RED = RED;
+exports.board = board;
+exports.setup = setup;
+exports.makeMove = makeMove;
+exports.getGameState = getGameState;

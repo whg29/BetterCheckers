@@ -7,6 +7,9 @@ var BLACKKING = 4;
 var BLACK = 0;
 var RED = 1;
 
+var BLACKWORD = "Black";
+var REDWORD = "Red";
+
 var letters = "abcdefgh";
 var numbers = "12345678";
 
@@ -15,7 +18,7 @@ for (i = 0; i < 8; i ++) {
 	board[i] = new Array(8).fill(EMPTY);
 }
 
-var turn = RED;
+var turn = BLACK;
 
 var setup = function(){
 	board[0][1] = REDMAN;
@@ -84,6 +87,13 @@ var isKing = function(piece) {
 	return piece >= 3;
 }
 
+var colorWord = function(color) {
+	if (color == RED) {
+		return REDWORD;
+	}
+	return BLACKWORD;
+}
+
 var spaceNW = function(coords) {
 	let col = coords[0];
 	let row = coords[1];
@@ -140,7 +150,7 @@ var spaceSE = function(coords) {
 	return [newcol, newrow];
 }
 
-var spaceInDirection = function(space, direction) {
+var spaceInDirection = function(coords, direction) {
 	let destination = -1;
 	if (direction == "NW") {
 		destination = spaceNW(coords);
@@ -154,53 +164,37 @@ var spaceInDirection = function(space, direction) {
 	return destination;
 }
 
-var blackMove = function(space, direction){
-	if (turn != BLACK) {
-		return "Please wait for Red to make their move."
+var forward = function(color) {
+	if (color == BLACK) {
+		return "N";
 	}
-	let coords = strToCoords(space);
-	if (!coords) {
-		return "Invalid input. Please input the letter and number of your selected piece's space.";
-	}
-	piece = spaceContents(coords);
-	if (pieceColor(piece) != BLACK) {
-		return "Please select a black piece.";
-	}
-	if ((direction == "SW" || direction == "SE") && !isKing(piece)) {
-		return "Only Kings may move backwards.";
-	}
-	let destination = spaceInDirection(space, direction);
-	if (destination == -1) {
-		return "Invalid direction."
-	}
-	if (!destination) {
-		return "You cannot move a piece off the board."
-	}
-	otherSpace = spaceContents(destination);
-	if (otherSpace != EMPTY) {
-		return "Invalid move. Please move to an empty square."
-	}
-	move(coords, destination);
-	turn = RED;
-	return "Move made."
+	return "S";
 }
 
-var redMove = function(space, direction){
-	if (turn != RED) {
-		return "Please wait for Black to make their move."
+var flipTurn = function() {
+	if (turn == RED) {
+		turn = BLACK;
+	} else {
+		turn = RED;
+	}
+}
+
+var makeMove = function(color, space, direction){
+	if (color != turn) {
+		return "Please wait for " + colorWord(turn) + " to take their turn.";
 	}
 	let coords = strToCoords(space);
 	if (!coords) {
 		return "Invalid input. Please input the letter and number of your selected piece's space.";
 	}
 	piece = spaceContents(coords);
-	if (pieceColor(piece) != RED) {
-		return "Please select a red piece.";
+	if (pieceColor(piece) != color) {
+		return "Please select a " + colorWord(color).toLowerCase() + " piece.";
 	}
-	if ((direction == "NW" || direction == "NE") && !isKing(piece)) {
+	if (direction.charAt(0) != forward(color) && !isKing(piece)) {
 		return "Only Kings may move backwards.";
 	}
-	let destination = spaceInDirection(space, direction);
+	let destination = spaceInDirection(coords, direction);
 	if (destination == -1) {
 		return "Invalid direction."
 	}
@@ -212,16 +206,16 @@ var redMove = function(space, direction){
 		return "Invalid move. Please move to an empty square."
 	}
 	move(coords, destination);
-	turn = BLACK;
-	return "Move made."
+	flipTurn();
+	return {"board": board, "status": 0}
 }
 
 setup();
 printBoard();
 console.log();
-blackMove("c3", "NE");
+console.log(makeMove(BLACK, "c3", "NE"));
 printBoard();
 console.log();
-redMove("c3", "NE");
+makeMove(RED, "c3", "NE");
 printBoard();
 

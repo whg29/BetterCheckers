@@ -5,12 +5,12 @@ var app = express();
 app.use(express.static("."));
 
 app.get("/blackMove", function(req, resp){
-	resp.write(game.blackMove(req.query["space"], req.query["direction"]));
+	resp.write(game.makeMove(game.BLACK, req.query["space"], req.query["direction"]));
 	resp.end();
 });
 
 app.get("/redMove", function(req, resp){
-	resp.write(game.blackMove(req.query["space"], req.query["direction"]));
+	resp.write(game.makeMove(game.RED, req.query["space"], req.query["direction"]));
 	resp.end();
 });
 

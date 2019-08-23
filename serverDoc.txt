@@ -1,0 +1,22 @@
+Better Checkers
+By Walt, In, Rahul, Kang
+
+Server-Side Documentation
+
+To submit a move to the server, use the endpoints "redMove" or "blackMove" with two arguments, source square ("space": "a1", "c5", etc.) and direction ("direction": "NW", "NE", "SW", "SE").
+Example: 
+"/blackMove?space=a3&direction=NE"
+
+The response will be a JSON object containing the following items:
+	"board": 2-dimensional array of integers representing the board.
+		0: empty
+		1: red man
+		2: black man
+		3: red king
+		4: black king
+	"status": Integer indicating the state of the game.
+		0: game still in progress
+		1: game is over
+	"message": String intended to be displayed to the player.
+
+If a valid move is made, the game will switch to the other player's turn. If a player tries to input a move while it is not their turn, the game will return the JSON response with the message indicating to the player that it is the other player's turn.

@@ -20,6 +20,8 @@ for (i = 0; i < 8; i ++) {
 
 var turn = BLACK;
 
+var gameStatus = 0;
+
 var setup = function(){
 	board[0][1] = REDMAN;
 	board[0][3] = REDMAN;
@@ -179,7 +181,7 @@ var flipTurn = function() {
 	}
 }
 
-var makeMove = function(color, space, direction){
+var executeMove = function(color, space, direction){
 	if (color != turn) {
 		return "Please wait for " + colorWord(turn) + " to take their turn.";
 	}
@@ -196,18 +198,22 @@ var makeMove = function(color, space, direction){
 	}
 	let destination = spaceInDirection(coords, direction);
 	if (destination == -1) {
-		return "Invalid direction."
+		return "Invalid direction.";
 	}
 	if (!destination) {
-		return "You cannot move a piece off the board."
+		return "You cannot move a piece off the board.";
 	}
 	otherSpace = spaceContents(destination);
 	if (otherSpace != EMPTY) {
-		return "Invalid move. Please move to an empty square."
+		return "Invalid move. Please move to an empty square.";
 	}
 	move(coords, destination);
 	flipTurn();
-	return {"board": board, "status": 0}
+	return colorWord(turn) + "'s turn.";
+}
+
+var makeMove = function(color, space, direction) {
+	return {"board": board, "status": gameStatus, "message": executeMove(color, space, direction)};
 }
 
 setup();

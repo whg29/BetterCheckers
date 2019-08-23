@@ -96,58 +96,34 @@ var colorWord = function(color) {
 	return BLACKWORD;
 }
 
-var spaceNW = function(coords) {
+var spaceInDirection = function(coords, direction) {
 	let col = coords[0];
 	let row = coords[1];
-	let newrow = row - 1;
-	if (newrow < 0) {
-		return null;
+	if (direction.charAt(0) == "N") {
+		newrow = row - 1;
+		if (newrow < 0) {
+			return null;
+		}
+	} else if (direction.charAt(0) == "S") {
+		newrow = row + 1;
+		if (newrow > 7) {
+			return null;
+		}
+	} else {
+		return -1;
 	}
-	let newcol = col - 1;
-	if (newrow < 0) {
-		return null;
-	}
-	return [newcol, newrow];
-}
-
-var spaceNE = function(coords) {
-	let col = coords[0];
-	let row = coords[1];
-	let newrow = row - 1;
-	if (newrow < 0) {
-		return null;
-	}
-	let newcol = col + 1;
-	if (newrow > 7) {
-		return null;
-	}
-	return [newcol, newrow];
-}
-
-var spaceSW = function(coords) {
-	let col = coords[0];
-	let row = coords[1];
-	let newrow = row + 1;
-	if (newrow > 7) {
-		return null;
-	}
-	let newcol = col - 1;
-	if (newrow < 0) {
-		return null;
-	}
-	return [newcol, newrow];
-}
-
-var spaceSE = function(coords) {
-	let col = coords[0];
-	let row = coords[1];
-	let newrow = row + 1;
-	if (newrow > 7) {
-		return null;
-	}
-	let newcol = col + 1;
-	if (newrow > 7) {
-		return null;
+	if (direction.charAt(1) == "W") {
+		newcol = col - 1;
+		if (newcol < 0) {
+			return null;
+		}
+	} else if (direction.charAt(1) == "E") {
+		newcol = col + 1;
+		if (newcol > 7) {
+			return null;
+		}
+	} else {
+		return -1;
 	}
 	return [newcol, newrow];
 }

@@ -128,20 +128,6 @@ var spaceInDirection = function(coords, direction) {
 	return [newcol, newrow];
 }
 
-var spaceInDirection = function(coords, direction) {
-	let destination = -1;
-	if (direction == "NW") {
-		destination = spaceNW(coords);
-	} else if (direction == "NE") {
-		destination = spaceNE(coords);
-	} else if (direction == "SW") {
-		destination = spaceSW(coords);
-	} else if (direction == "SE") {
-		destination = spaceSE(coords);
-	}
-	return destination;
-}
-
 var forward = function(color) {
 	if (color == BLACK) {
 		return "N";

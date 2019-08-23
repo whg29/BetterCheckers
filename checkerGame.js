@@ -228,15 +228,16 @@ var executeMove = function(color, space, direction) {
 	} else if (pieceColor(otherSpace) == color) {
 		return "You may not capture your own pieces."
 	} else {
-		let captureDestination = spaceInDirection(destination, direction);
-		if (!captureDestination) {
+		let betweenSpace = destination;
+		destination = spaceInDirection(destination, direction);
+		if (!destination) {
 			return "You cannot make a jump that moves your piece off the board.";
 		}
-		let captureSpace = spaceContents(captureDestination);
+		let captureSpace = spaceContents(destination);
 		if (captureSpace != EMPTY) {
 			return "You cannot make a jump unless the space beyond the opponent's piece is empty.";
 		}
-		makeCapturingMove(coords, destination, captureDestination);
+		makeCapturingMove(coords, betweenSpace, destination);
 	}
 	message = "";
 	if (!isKing(piece) && (coords[1] == 0 || coords[1] == 7)) {

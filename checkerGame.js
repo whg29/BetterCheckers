@@ -22,7 +22,7 @@ var turn = BLACK;
 
 var gameStatus = 0;
 
-var setup = function(){
+var setup = function() {
 	board[0][1] = REDMAN;
 	board[0][3] = REDMAN;
 	board[0][5] = REDMAN;
@@ -50,7 +50,7 @@ var setup = function(){
 	board[7][6] = BLACKMAN;
 }
 
-var strToCoords = function(coords){
+var strToCoords = function(coords) {
 	if (coords.length != 2 || !letters.includes(coords.charAt(0).toLowerCase()) || !numbers.includes(coords.charAt(1))) {
 		return false;
 	}
@@ -181,7 +181,17 @@ var flipTurn = function() {
 	}
 }
 
-var executeMove = function(color, space, direction){
+var nonCapturingMove = function(coords, destination) {
+	move(coords, destination);
+	flipTurn();
+}
+
+var capturingMove = function(space1, space2, space3) {
+	move(space1, space3);
+	setSpace(space2, EMPTY);
+}
+
+var executeMove = function(color, space, direction) {
 	if (color != turn) {
 		return "Please wait for " + colorWord(turn) + " to take their turn.";
 	}
@@ -189,7 +199,7 @@ var executeMove = function(color, space, direction){
 	if (!coords) {
 		return "Invalid input. Please input the letter and number of your selected piece's space.";
 	}
-	piece = spaceContents(coords);
+	let piece = spaceContents(coords);
 	if (pieceColor(piece) != color) {
 		return "Please select a " + colorWord(color).toLowerCase() + " piece.";
 	}
@@ -203,13 +213,28 @@ var executeMove = function(color, space, direction){
 	if (!destination) {
 		return "You cannot move a piece off the board.";
 	}
-	otherSpace = spaceContents(destination);
-	if (otherSpace != EMPTY) {
-		return "Invalid move. Please move to an empty square.";
+	let otherSpace = spaceContents(destination);
+	if (otherSpace == EMPTY) {
+		nonCapturingMove(coords, destination);
+	} else if (pieceColor(otherSpace) == color) {
+		return "You may not capture your own pieces."
+	} else {
+		let captureDestination = spaceInDirection(destination, direction);
+		if (!captureDestination) {
+			return "You cannot make a jump that moves your piece off the board.";
+		}
+		let captureSpace = spaceContents(captureDestination);
+		if (captureSpace != EMPTY) {
+			return "You cannot make a jump unless the space beyond the opponent's piece is empty.";
+		}
+		capturingMove(coords, destination, captureDestination);
 	}
-	move(coords, destination);
-	flipTurn();
-	return colorWord(turn) + "'s turn.";
+	message = "";
+	if (!isKing(piece) && (coords[1] == 0 || coords[1] == 7)) {
+		setSpace(destination, piece + 2);
+		message = "Your Man on space " + space.toLowerCase() + " has become a King. ";
+	}
+	return message + colorWord(turn) + "'s turn.";;
 }
 
 var makeMove = function(color, space, direction) {
@@ -220,8 +245,5 @@ setup();
 printBoard();
 console.log();
 console.log(makeMove(BLACK, "c3", "NE"));
-printBoard();
-console.log();
-makeMove(RED, "c3", "NE");
-printBoard();
+console.log(makeMove(BLACK, "b2", "NW"));
 

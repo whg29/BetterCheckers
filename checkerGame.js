@@ -1,14 +1,18 @@
+var OFFBOARD = -1;
 var EMPTY = 0;
 var REDMAN = 1;
 var BLACKMAN = 2;
 var REDKING = 3;
 var BLACKKING = 4;
 
+var NOCOLOR = -1;
 var BLACK = 0;
 var RED = 1;
 
 var BLACKWORD = "Black";
 var REDWORD = "Red";
+
+var DIRECTIONS = ["NW", "NE", "SW", "SE"];
 
 var letters = "abcdefgh";
 var numbers = "12345678";
@@ -23,6 +27,7 @@ var turn = BLACK;
 var blackCheckers = 12;
 var redCheckers = 12;
 var gameStatus = 0;
+var announceKing = false;
 
 var setup = function() {
 	board[0][1] = REDMAN;
@@ -71,7 +76,7 @@ var spaceContents = function(coords) {
 	if (0 <= coords[0] && coords[0] <= 7 && 0 <= coords[1] && coords[1] <= 7) {
 		return board[coords[1]][coords[0]];
 	}
-	return -1;
+	return OFFBOARD;
 }
 
 var setSpace = function(coords, piece) {
@@ -84,7 +89,10 @@ var move = function(start, end) {
 }
 
 var pieceColor = function(piece) {
-	return piece % 2;
+	if (1 <= piece && piece <= 4) {
+		return piece % 2;
+	}
+	return NOCOLOR;
 }
 
 var isKing = function(piece) {
@@ -145,8 +153,34 @@ var flipTurn = function() {
 	}
 }
 
-var nonCapturingMove = function(coords, destination) {
-	move(coords, destination);
+var checkForcedCaptures = function() {
+	for (col = 0; col < 8; col ++) {
+		for (row = 0; row < 8; row ++) {
+			let coords = [col, row];
+			let piece = spaceContents(coords);
+			if (piece > EMPTY && pieceColor(piece) == turn) {
+				if (isKing(piece)) {
+					dirs = DIRECTIONS;
+				} else {
+					dirs = [forward(turn) + "E", forward(turn) + "W"];
+				}
+				for (i = 0; i < dirs.length; i ++) {
+					let dest = spaceInDirection(coords, dirs[i]);
+					if (dest) {
+						let otherPiece = spaceContents(dest);
+						if (otherPiece > EMPTY && pieceColor(otherPiece) != turn && spaceContents(spaceInDirection(dest, dirs[i])) == EMPTY) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+var makeNonCapturingMove = function(sourceSpace, destSpace) {
+	move(sourceSpace, destSpace);
 	flipTurn();
 }
 
@@ -172,7 +206,7 @@ var executeMove = function(color, space, direction) {
 		return "Invalid input. Please input the letter and number of your selected piece's space.";
 	}
 	let piece = spaceContents(coords);
-	if (pieceColor(piece) != color) {
+	if (piece <= EMPTY || pieceColor(piece) != color) {
 		return "Please select a " + colorWord(color).toLowerCase() + " piece.";
 	}
 	if (direction.charAt(0) != forward(color) && !isKing(piece)) {
@@ -187,7 +221,10 @@ var executeMove = function(color, space, direction) {
 	}
 	let otherSpace = spaceContents(destination);
 	if (otherSpace == EMPTY) {
-		nonCapturingMove(coords, destination);
+		if (checkForcedCaptures()) {
+			return "You cannot make this move while you have a capturing move available to you.";
+		}
+		makeNonCapturingMove(coords, destination);
 	} else if (pieceColor(otherSpace) == color) {
 		return "You may not capture your own pieces."
 	} else {
@@ -215,7 +252,6 @@ var makeMove = function(color, space, direction) {
 
 setup();
 printBoard();
-console.log();
 console.log(makeMove(BLACK, "c3", "NE"));
 console.log(makeMove(BLACK, "b2", "NW"));
 

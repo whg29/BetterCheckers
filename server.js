@@ -14,6 +14,10 @@ app.get("/redMove", function(req, resp){
 	resp.end();
 });
 
+app.get("/update", function(req, resp){
+	resp.write(game.getGameState());
+	resp.end();
+});
 
 app.listen(8080, function(){
 	console.log("Server started, listening on port 8080.")

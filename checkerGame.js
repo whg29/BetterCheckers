@@ -27,7 +27,6 @@ var turn = BLACK;
 var blackCheckers = 12;
 var redCheckers = 12;
 var gameStatus = 0;
-var announceKing = false;
 
 var setup = function() {
 	board[0][1] = REDMAN;
@@ -55,6 +54,10 @@ var setup = function() {
 	board[7][2] = BLACKMAN;
 	board[7][4] = BLACKMAN;
 	board[7][6] = BLACKMAN;
+}
+
+var getGameState = function() {
+	return {"board": board, "status": gameStatus, "turn": turn};
 }
 
 var strToCoords = function(coords) {
@@ -252,7 +255,9 @@ var makeMove = function(color, space, direction) {
 }
 
 setup();
-printBoard();
-console.log(makeMove(BLACK, "c3", "NE"));
-console.log(makeMove(BLACK, "b2", "NW"));
+// printBoard();
+console.log(makeMove(BLACK, "c3", "NE").message);
+console.log(makeMove(RED, "f6", "SW").message);
+console.log(makeMove(BLACK, "b2", "NE"));
+console.log(makeMove(BLACK, "d4", "NE"));
 

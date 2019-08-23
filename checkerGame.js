@@ -20,6 +20,8 @@ for (i = 0; i < 8; i ++) {
 
 var turn = BLACK;
 
+var blackCheckers = 12;
+var redCheckers = 12;
 var gameStatus = 0;
 
 var setup = function() {
@@ -148,9 +150,17 @@ var nonCapturingMove = function(coords, destination) {
 	flipTurn();
 }
 
-var capturingMove = function(space1, space2, space3) {
-	move(space1, space3);
-	setSpace(space2, EMPTY);
+var makeCapturingMove = function(sourceSpace, betweenSpace, destSpace) {
+	move(sourceSpace, destSpace);
+	if (turn == RED) {
+		blackCheckers -= 1;
+	} else {
+		redCheckers -= 1;
+	}
+	setSpace(betweenSpace, EMPTY);
+	if (!checkForcedCaptures()) {
+		flipTurn();
+	}
 }
 
 var executeMove = function(color, space, direction) {
@@ -189,7 +199,7 @@ var executeMove = function(color, space, direction) {
 		if (captureSpace != EMPTY) {
 			return "You cannot make a jump unless the space beyond the opponent's piece is empty.";
 		}
-		capturingMove(coords, destination, captureDestination);
+		makeCapturingMove(coords, destination, captureDestination);
 	}
 	message = "";
 	if (!isKing(piece) && (coords[1] == 0 || coords[1] == 7)) {

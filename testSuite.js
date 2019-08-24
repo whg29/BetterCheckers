@@ -6,6 +6,12 @@ var clearBoard = function() {
 	}
 }
 
+var printBoard = function() {
+	game.board.forEach(function(item){
+		console.log(item);
+	});
+}
+
 game.setup();
 
 //Moving

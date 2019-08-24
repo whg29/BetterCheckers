@@ -69,12 +69,6 @@ var strToCoords = function(coords) {
 	return [col, row];
 }
 
-var printBoard = function() {
-	board.forEach(function(item){
-		console.log(item);
-	});
-}
-
 var spaceContents = function(coords) {
 	if (0 <= coords[0] && coords[0] <= 7 && 0 <= coords[1] && coords[1] <= 7) {
 		return board[coords[1]][coords[0]];

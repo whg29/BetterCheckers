@@ -3,8 +3,11 @@ By Walt, In, Rahul, Kang
 
 Server-Side Documentation
 
+==Running the Server==
+Start up server.js using Node.
+
 ==Submitting Moves==
-To submit a move to the server, use the endpoints "redMove" or "blackMove" with two arguments, source square ("space": "a1", "c5", etc.) and direction ("direction": "NW", "NE", "SW", "SE").
+To submit a move to the server, use the "redMove" or "blackMove" endpoints with two arguments: source square ("space": "a1", "c5", etc.), and direction ("direction": "NW", "NE", "SW", "SE").
 Example: 
 "/blackMove?space=a3&direction=NE"
 
@@ -23,4 +26,7 @@ The response will be a JSON object containing the following items:
 If a valid move is made, the game will switch to the other player's turn. If a player tries to input a move while it is not their turn, the game will return the JSON response with the message indicating to the player that it is the other player's turn.
 
 ==Updating==
-Every second or so, the client should call the "update" endpoint. This will return a JSON object containing the board state, the status of the game and an indicator of whose turn it is (0 for black and 1 for red).
+The "update" endpoint will return a JSON object containing the board state, the status of the game and an indicator of whose turn it is (0 for black and 1 for red). The idea behind this is that the client should call this endpoint every second or so.
+
+==Test Suite==
+You can run some server-side tests by using Node to run testSuite.js. This file contains several sets of test cases divided into sections which you can uncomment to choose which one(s) to run.

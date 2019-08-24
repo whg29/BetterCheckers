@@ -26,7 +26,16 @@ var turn = BLACK;
 var lastMoved = null;
 var blackCheckers = 12;
 var redCheckers = 12;
-var gameStatus = 0;
+
+var CONTINUING = 0;
+var BLACKWINS_CAPTURE = 1;
+var REDWINS_CAPTURE = 2;
+var BLACKWINS_BLOCKING = 3;
+var REDWINS_BLOCKING = 4;
+var BLACKWINS_CONCEDE = 5;
+var REDWINS_CONCEDE = 6;
+var DRAW = 7;
+var gameStatus = CONTINUING;
 
 var setup = function() {
 	board[0][1] = REDMAN;
@@ -57,7 +66,28 @@ var setup = function() {
 }
 
 var getGameState = function() {
-	return {"board": board, "status": gameStatus, "turn": turn};
+	return {"board": board, "turn": turn, "statusMessage": getStatusMessage()};
+}
+
+var getStatusMessage = function() {
+	switch (gameState) {
+	case BLACKWINS_CAPTURE:
+		return "Black has captured all the opponent's pieces. Black wins!";
+	case REDWINS_CAPTURE:
+		return "Red has captured all the opponent's pieces. Red wins!";
+	case BLACKWINS_BLOCKING:
+		return "Red cannot make any legal moves. Black wins!";
+	case REDWINS_BLOCKING:
+		return "Black cannot make any legal moves. Red wins!";
+	case BLACKWINS_CONCEDE:
+		return "Red has conceded the game. Black wins!";
+	case REDWINS_CONCEDE:
+		return "Black has conceded the game. Red wins!";
+	case DRAW:
+		return "The game is a draw!";
+	default:
+		return "";
+	}
 }
 
 var strToCoords = function(coords) {
@@ -106,6 +136,13 @@ var colorWord = function(color) {
 	return BLACKWORD;
 }
 
+var opponent = function(color) {
+	if (color == RED) {
+		return BLACK;
+	}
+	return RED;
+}
+
 var spaceInDirection = function(coords, direction) {
 	let col = coords[0];
 	let row = coords[1];
@@ -146,10 +183,23 @@ var forward = function(color) {
 }
 
 var flipTurn = function() {
-	if (turn == RED) {
-		turn = BLACK;
-	} else {
-		turn = RED;
+	turn = opponent(turn);
+}
+
+var canMove = function(coords) {
+	let piece = spaceContents(coords);
+	if (piece > EMPTY && pieceColor(piece) == turn) {
+		if (isKing(piece)) {
+			dirs = DIRECTIONS;
+		} else {
+			dirs = [forward(turn) + "E", forward(turn) + "W"];
+		}
+		for (i = 0; i < dirs.length; i ++) {
+			let dest = spaceInDirection(coords, dirs[i]);
+			if (spaceContents(dest) == EMPTY) {
+				return true;
+			}
+		}
 	}
 }
 
@@ -173,11 +223,23 @@ var canCapture = function(coords) {
 	}
 }
 
+var anyLegalMoves = function() {
+	for (col = 0; col < 8; col ++) {
+		for (row = (col+1) % 2; row < 8; row += 2) {
+			let coords = [col, row];
+			if (canMove(coords) || canCapture(coords)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 var checkForcedCaptures = function() {
 	for (col = 0; col < 8; col ++) {
-		for (row = 0; row < 8; row ++) {
+		for (row = (col+1) % 2; row < 8; row += 2) {
 			let coords = [col, row];
-			if (canCapture([col, row])) {
+			if (canCapture(coords)) {
 				return true;
 			}
 		}
@@ -207,6 +269,9 @@ var makeCapturingMove = function(sourceSpace, betweenSpace, destSpace) {
 }
 
 var executeMove = function(color, space, direction) {
+	if (gameStatus != CONTINUING) {
+		return getStatusMessage();
+	}
 	if (color != turn) {
 		return "Please wait for " + colorWord(turn) + " to take their turn.";
 	}
@@ -261,7 +326,23 @@ var executeMove = function(color, space, direction) {
 	if (lastMoved) {
 		return "You can make an additional capture."
 	}
-	message = "";
+	if (blackCheckers == 0) {
+		gameStatus = REDWINS_CAPTURE;
+	}
+	if (redCheckers == 0) {
+		gameStatus = BLACKWINS_CAPTURE;
+	}
+	if (!anyLegalMoves()) {
+		if (turn == RED {
+			gameStatus = BLACKWINS_BLOCKING;
+		} else {
+			gameStatus = REDWINS_BLOCKING;
+		}
+	}
+	message = getStatusMessage();
+	if (message) {
+		return message;
+	}
 	if (!isKing(piece) && (destination[1] == 0 || destination[1] == 7)) {
 		setSpace(destination, piece + 2);
 		message = "Your Man on space " + space.toLowerCase() + " has become a King. ";

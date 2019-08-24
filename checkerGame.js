@@ -23,7 +23,7 @@ for (i = 0; i < 8; i ++) {
 }
 
 var turn = BLACK;
-
+var lastMoved = null;
 var blackCheckers = 12;
 var redCheckers = 12;
 var gameStatus = 0;
@@ -195,7 +195,10 @@ var makeCapturingMove = function(sourceSpace, betweenSpace, destSpace) {
 		redCheckers -= 1;
 	}
 	setSpace(betweenSpace, EMPTY);
-	if (!checkForcedCaptures()) {
+	if (canCapture(destSpace)) {
+		lastMoved = destSpace;
+	} else {
+		lastMoved = null;
 		flipTurn();
 	}
 }
@@ -204,11 +207,15 @@ var executeMove = function(color, space, direction) {
 	if (color != turn) {
 		return "Please wait for " + colorWord(turn) + " to take their turn.";
 	}
-	let coords = strToCoords(space);
-	if (!coords) {
-		return "Invalid input. Please input the letter and number of your selected piece's space.";
+	if (!lastMoved) {
+		coords = strToCoords(space);
+		if (!coords) {
+			return "Invalid input. Please input the letter and number of your selected piece's space.";
+		}
+	} else {
+		coords = lastMoved;
 	}
-	let piece = spaceContents(coords);
+	piece = spaceContents(coords);
 	if (piece <= EMPTY || pieceColor(piece) != color) {
 		return "Please select a " + colorWord(color).toLowerCase() + " piece.";
 	}
@@ -224,6 +231,9 @@ var executeMove = function(color, space, direction) {
 	}
 	let otherSpace = spaceContents(destination);
 	if (otherSpace == EMPTY) {
+		if (lastMoved) {
+			return "You must continue to jump until the piece can no longer make any jumps.";
+		}
 		if (checkForcedCaptures()) {
 			return "You cannot make a non-capturing move while you have a capturing move available to you.";
 		}
@@ -242,12 +252,15 @@ var executeMove = function(color, space, direction) {
 		}
 		makeCapturingMove(coords, betweenSpace, destination);
 	}
+	if (lastMoved) {
+		return "You can make an additional capture."
+	}
 	message = "";
-	if (!isKing(piece) && (coords[1] == 0 || coords[1] == 7)) {
+	if (!isKing(piece) && (destination[1] == 0 || destination[1] == 7)) {
 		setSpace(destination, piece + 2);
 		message = "Your Man on space " + space.toLowerCase() + " has become a King. ";
 	}
-	return message + colorWord(turn) + "'s turn.";;
+	return message + colorWord(turn) + "'s turn.";
 }
 
 var makeMove = function(color, space, direction) {

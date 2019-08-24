@@ -269,6 +269,11 @@ var makeMove = function(color, space, direction) {
 
 exports.BLACK = BLACK;
 exports.RED = RED;
+exports.EMPTY = EMPTY;
+exports.REDMAN = REDMAN;
+exports.BLACKMAN = BLACKMAN;
+exports.REDKING = REDKING;
+exports.BLACKKING = BLACKKING;
 exports.board = board;
 exports.setup = setup;
 exports.makeMove = makeMove;

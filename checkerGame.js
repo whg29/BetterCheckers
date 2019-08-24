@@ -150,26 +150,32 @@ var flipTurn = function() {
 	}
 }
 
+var canCapture = function(coords) {
+	let piece = spaceContents(coords);
+	if (piece > EMPTY && pieceColor(piece) == turn) {
+		if (isKing(piece)) {
+			dirs = DIRECTIONS;
+		} else {
+			dirs = [forward(turn) + "E", forward(turn) + "W"];
+		}
+		for (i = 0; i < dirs.length; i ++) {
+			let dest = spaceInDirection(coords, dirs[i]);
+			if (dest) {
+				let otherPiece = spaceContents(dest);
+				if (otherPiece > EMPTY && pieceColor(otherPiece) != turn && spaceContents(spaceInDirection(dest, dirs[i])) == EMPTY) {
+					return true;
+				}
+			}
+		}
+	}
+}
+
 var checkForcedCaptures = function() {
 	for (col = 0; col < 8; col ++) {
 		for (row = 0; row < 8; row ++) {
 			let coords = [col, row];
-			let piece = spaceContents(coords);
-			if (piece > EMPTY && pieceColor(piece) == turn) {
-				if (isKing(piece)) {
-					dirs = DIRECTIONS;
-				} else {
-					dirs = [forward(turn) + "E", forward(turn) + "W"];
-				}
-				for (i = 0; i < dirs.length; i ++) {
-					let dest = spaceInDirection(coords, dirs[i]);
-					if (dest) {
-						let otherPiece = spaceContents(dest);
-						if (otherPiece > EMPTY && pieceColor(otherPiece) != turn && spaceContents(spaceInDirection(dest, dirs[i])) == EMPTY) {
-							return true;
-						}
-					}
-				}
+			if (canCapture([col, row])) {
+				return true;
 			}
 		}
 	}

@@ -70,6 +70,9 @@ var strToCoords = function(coords) {
 }
 
 var spaceContents = function(coords) {
+	if (!coords) {
+		return OFFBOARD;
+	}
 	if (0 <= coords[0] && coords[0] <= 7 && 0 <= coords[1] && coords[1] <= 7) {
 		return board[coords[1]][coords[0]];
 	}
@@ -210,7 +213,10 @@ var executeMove = function(color, space, direction) {
 	if (!lastMoved) {
 		coords = strToCoords(space);
 		if (!coords) {
-			return "Invalid input. Please input the letter and number of your selected piece's space.";
+			return "Invalid space. Please input the letter and number of your selected piece's space.";
+		}
+		if (!DIRECTIONS.includes(direction)) {
+			return "Invalid direction. Please select northeast (NE), northwest (NW), southeast (SE) or southwest (SW)."
 		}
 	} else {
 		coords = lastMoved;

@@ -333,7 +333,7 @@ var executeMove = function(color, space, direction) {
 		gameStatus = BLACKWINS_CAPTURE;
 	}
 	if (!anyLegalMoves()) {
-		if (turn == RED {
+		if (turn == RED) {
 			gameStatus = BLACKWINS_BLOCKING;
 		} else {
 			gameStatus = REDWINS_BLOCKING;

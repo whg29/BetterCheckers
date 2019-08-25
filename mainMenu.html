@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BetterChecker</title>
+  <style>
+  .button {
+  background-color: #AAABB8; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 150px;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #1c2236;
+}
+
+li {
+  float: left;
+  border-right:1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+body {
+  background-image: url("checkboard.jpg");
+}
+</style>
+</head>
+
+<body>
+	<div style="color: white; font-size: 18pt;">
+		<ul>
+			<li><a href="#home">BetterChecker</a></li>
+			<li style="float: right;"><a href="#about">About</a></li>
+		</ul> 
+	</div>
+	<div style="position: absolute; left: 0; top: 50%;width: 100%; text-align: center; font-size: 18px;">
+		<button class="button">1 v 1</button>
+		<button class="button">Score</button>
+		<button class="button">Help</button>
+	</div>
+</body>
+</html>

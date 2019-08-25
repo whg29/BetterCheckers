@@ -6,17 +6,17 @@ var app = express();
 app.use(express.static("."));
 
 app.get("/blackMove", function(req, resp){
-	resp.write(game.makeMove(game.BLACK, req.query["space"], req.query["direction"]));
+	resp.write(JSON.stringify(game.makeMove(game.BLACK, req.query["space"], req.query["direction"])));
 	resp.end();
 });
 
 app.get("/redMove", function(req, resp){
-	resp.write(game.makeMove(game.RED, req.query["space"], req.query["direction"]));
+	resp.write(JSON.stringify(game.makeMove(game.RED, req.query["space"], req.query["direction"])));
 	resp.end();
 });
 
 app.get("/update", function(req, resp){
-	resp.write(game.getGameState());
+	resp.write(JSON.stringify(game.getGameState()));
 	resp.end();
 });
 

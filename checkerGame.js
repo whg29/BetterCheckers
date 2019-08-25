@@ -70,7 +70,7 @@ var getGameState = function() {
 }
 
 var getStatusMessage = function() {
-	switch (gameState) {
+	switch (gameStatus) {
 	case BLACKWINS_CAPTURE:
 		return "Black has captured all the opponent's pieces. Black wins!";
 	case REDWINS_CAPTURE:

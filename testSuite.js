@@ -18,19 +18,19 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "d", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3 ", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3", "northeast"));
-//
+
 // //Legal move selection
 // resetGame();
 // console.log(game.makeMove(game.BLACK, "d4", "NE"));
 // console.log(game.makeMove(game.BLACK, "f6", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3", "SE"));
 // console.log(game.makeMove(game.RED, "f6", "SW"));
-//
+
 // //Non-capturing moves
 // resetGame();
 // console.log(game.makeMove(game.BLACK, "c3", "NE"));
 // console.log(game.makeMove(game.RED, "f6", "SW"));
-//
+
 // //Capturing moves and forced captures
 // resetGame();
 // game.makeMove(game.BLACK, "c3", "NE");
@@ -39,7 +39,7 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "d4", "NE"));
 // console.log(game.makeMove(game.RED, "d6", "SW"));
 // console.log(game.makeMove(game.RED, "e7", "SE"));
-//
+
 // //Multiple jumps
 // clearBoard();
 // game.board[0][1] = game.REDMAN;
@@ -51,7 +51,7 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "a3", "NW"));
 // console.log(game.makeMove(game.BLACK, "a3", "NE"));
 // console.log(game.makeMove(game.RED, "b8", "SE"));
-//
+
 // //"King Me"
 // clearBoard();
 // game.board[0][1] = game.REDMAN;
@@ -60,7 +60,7 @@ var resetGame = function() {
 // console.log(game.getGameState());
 // console.log(game.makeMove(game.BLACK, "c7", "NE"));
 // console.log(game.makeMove(game.RED, "b8", "SE"));
-//
+
 // //King movement
 // console.log(game.makeMove(game.BLACK, "d8", "SW"));
 // console.log(game.makeMove(game.RED, "e5", "SW"));

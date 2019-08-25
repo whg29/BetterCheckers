@@ -21,5 +21,5 @@ app.get("/update", function(req, resp){
 });
 
 app.listen(8080, function(){
-	console.log("Server started, listening on port 8080.")
+	console.log("Server started, listening on port 8080.");
 });

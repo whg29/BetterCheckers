@@ -1,4 +1,5 @@
 var game = require("./checkerGame.js");
+game.enableDebug();
 
 var clearBoard = function() {
 	for (i = 0; i < 8; i ++) {
@@ -9,6 +10,7 @@ var clearBoard = function() {
 var resetGame = function() {
 	clearBoard();
 	game.setup();
+	game.setGameStatus(0);
 }
 
 // Following are some test cases. Uncomment them to run them.

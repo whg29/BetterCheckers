@@ -69,6 +69,10 @@ var getGameState = function() {
 	return {"board": board, "turn": turn, "statusMessage": getStatusMessage()};
 }
 
+var setGameStatus = function(st) {
+	gameStatus = st;
+}
+
 var getStatusMessage = function() {
 	switch (gameStatus) {
 	case BLACKWINS_CAPTURE:
@@ -327,16 +331,15 @@ var executeMove = function(color, space, direction) {
 		return "You can make an additional capture."
 	}
 	if (blackCheckers == 0) {
-		gameStatus = REDWINS_CAPTURE;
-	}
-	if (redCheckers == 0) {
-		gameStatus = BLACKWINS_CAPTURE;
+		setGameStatus(REDWINS_CAPTURE);
+	} else if (redCheckers == 0) {
+		setGameStatus(BLACKWINS_CAPTURE);
 	}
 	if (!anyLegalMoves()) {
 		if (turn == RED) {
-			gameStatus = BLACKWINS_BLOCKING;
+			setGameStatus(BLACKWINS_BLOCKING);
 		} else {
-			gameStatus = REDWINS_BLOCKING;
+			setGameStatus(REDWINS_BLOCKING);
 		}
 	}
 	message = getStatusMessage();
@@ -356,12 +359,15 @@ var makeMove = function(color, space, direction) {
 
 exports.BLACK = BLACK;
 exports.RED = RED;
-exports.EMPTY = EMPTY;
-exports.REDMAN = REDMAN;
-exports.BLACKMAN = BLACKMAN;
-exports.REDKING = REDKING;
-exports.BLACKKING = BLACKKING;
-exports.board = board;
-exports.setup = setup;
 exports.makeMove = makeMove;
 exports.getGameState = getGameState;
+exports.enableDebug = function () {
+	exports.board = board;
+	exports.setup = setup;
+	exports.EMPTY = EMPTY;
+	exports.REDMAN = REDMAN;
+	exports.BLACKMAN = BLACKMAN;
+	exports.REDKING = REDKING;
+	exports.BLACKKING = BLACKKING;
+	exports.setGameStatus = setGameStatus;
+}

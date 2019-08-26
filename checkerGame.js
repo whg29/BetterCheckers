@@ -354,8 +354,7 @@ var executeMove = function(color, space, direction) {
 		setGameStatus(REDWINS_CAPTURE);
 	} else if (redCheckers == 0) {
 		setGameStatus(BLACKWINS_CAPTURE);
-	}
-	if (!anyLegalMoves()) {
+	} else if (!anyLegalMoves()) {
 		if (turn == RED) {
 			setGameStatus(BLACKWINS_BLOCKING);
 		} else {

@@ -322,7 +322,7 @@ var executeMove = function(color, space, direction) {
 		return "Invalid direction.";
 	}
 	if (!destination) {
-		return "You cannot move a piece off the board.";
+		return "You may not move a piece off the board.";
 	}
 	let otherSpace = spaceContents(destination);
 	if (otherSpace == EMPTY) {
@@ -339,11 +339,11 @@ var executeMove = function(color, space, direction) {
 		let betweenSpace = destination;
 		destination = spaceInDirection(destination, direction);
 		if (!destination) {
-			return "You cannot make a jump that moves your piece off the board.";
+			return "You may not make a jump that moves your piece off the board.";
 		}
 		let captureSpace = spaceContents(destination);
 		if (captureSpace != EMPTY) {
-			return "You cannot make a jump unless the space beyond the opponent's piece is empty.";
+			return "You may not make a jump unless the space beyond the opponent's piece is unoccupied.";
 		}
 		makeCapturingMove(coords, betweenSpace, destination);
 	}
@@ -367,7 +367,7 @@ var executeMove = function(color, space, direction) {
 	}
 	if (!isKing(piece) && (destination[1] == 0 || destination[1] == 7)) {
 		setSpace(destination, piece + 2);
-		message = "Your Man on space " + space.toLowerCase() + " has become a King. ";
+		message = "Your Man has become a King. ";
 	}
 	return message + colorWord(turn) + "'s turn.";
 }

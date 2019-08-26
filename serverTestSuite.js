@@ -11,6 +11,8 @@ var resetGame = function() {
 	clearBoard();
 	game.setup();
 	game.setGameStatus(0);
+	game.setBlackCheckers(12);
+	game.setRedCheckers(12);
 }
 
 // Following are some test cases. Uncomment them to run them.
@@ -67,3 +69,28 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "d8", "SW"));
 // console.log(game.makeMove(game.RED, "e5", "SW"));
 // console.log(game.makeMove(game.BLACK, "b6", "SE"));
+// console.log(game.makeMove(game.RED, "d4", "SE"));
+
+// //Ending the game by capture
+// clearBoard();
+// game.board[0][1] = game.REDKING;
+// game.board[1][2] = game.BLACKMAN;
+// game.setBlackCheckers(1);
+// game.setRedCheckers(1);
+// console.log(game.makeMove(game.BLACK, "c7", "NE"));
+// console.log(game.makeMove(game.RED, "b8", "SE"));
+// console.log(game.makeMove(game.BLACK, "d8", "SE"));
+// console.log(game.makeMove(game.BLACK, "d8", "SW"));
+
+// //Ending the game by blocking
+// clearBoard();
+// game.board[5][6] = game.REDMAN;
+// game.board[1][4] = game.REDMAN;
+// game.board[2][5] = game.REDMAN;
+// game.board[2][1] = game.REDMAN;
+// game.board[0][1] = game.REDKING;
+// game.board[2][3] = game.REDKING;
+// game.board[1][2] = game.BLACKMAN;
+// console.log(game.makeMove(game.RED, "g3", "SW"));
+// console.log(game.makeMove(game.BLACK, "c7", "NE"));
+// console.log(game.makeMove(game.RED, "d6", "NW"));

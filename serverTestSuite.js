@@ -21,6 +21,7 @@ var resetGame = function() {
 // resetGame();
 // console.log(game.makeMove(game.BLACK, "d", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3 ", "NE"));
+// console.log(game.makeMove(game.BLACK, "3c", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3", "northeast"));
 
 // //Legal move selection
@@ -65,7 +66,7 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "c7", "NE"));
 // console.log(game.makeMove(game.RED, "b8", "SE"));
 
-// //King movement
+// //King movement - note that unlike the other test cases, this one follows directly from "King Me"
 // console.log(game.makeMove(game.BLACK, "d8", "SW"));
 // console.log(game.makeMove(game.RED, "e5", "SW"));
 // console.log(game.makeMove(game.BLACK, "b6", "SE"));

@@ -163,6 +163,10 @@ var opponent = function(color) {
 	return RED;
 }
 
+var validDirection = function(direction) {
+	return DIRECTIONS.includes(direction.toUpperCase());
+}
+
 var spaceInDirection = function(coords, direction) {
 	let col = coords[0];
 	let row = coords[1];
@@ -300,7 +304,7 @@ var executeMove = function(color, space, direction) {
 		if (!coords) {
 			return "Invalid space. Please input the letter and number of your selected piece's space.";
 		}
-		if (!DIRECTIONS.includes(direction)) {
+		if (!validDirection(direction)) {
 			return "Invalid direction. Please select northeast (NE), northwest (NW), southeast (SE) or southwest (SW)."
 		}
 	} else {

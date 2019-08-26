@@ -73,6 +73,22 @@ var setGameStatus = function(st) {
 	gameStatus = st;
 }
 
+var getBlackCheckers = function() {
+	return blackCheckers;
+}
+
+var getRedCheckers = function() {
+	return redCheckers;
+}
+
+var setBlackCheckers = function(checkers) {
+	blackCheckers = checkers;
+}
+
+var setRedCheckers = function(checkers) {
+	redCheckers = checkers;
+}
+
 var getStatusMessage = function() {
 	switch (gameStatus) {
 	case BLACKWINS_CAPTURE:
@@ -258,10 +274,10 @@ var makeNonCapturingMove = function(sourceSpace, destSpace) {
 
 var makeCapturingMove = function(sourceSpace, betweenSpace, destSpace) {
 	move(sourceSpace, destSpace);
-	if (turn == RED) {
-		blackCheckers -= 1;
+	if (pieceColor(betweenSpace) == BLACK) {
+		setBlackCheckers(getBlackCheckers() - 1);
 	} else {
-		redCheckers -= 1;
+		setRedCheckers(getBlackCheckers() - 1);
 	}
 	setSpace(betweenSpace, EMPTY);
 	if (canCapture(destSpace)) {
@@ -370,4 +386,6 @@ exports.enableDebug = function () {
 	exports.REDKING = REDKING;
 	exports.BLACKKING = BLACKKING;
 	exports.setGameStatus = setGameStatus;
+	exports.setBlackCheckers = setBlackCheckers;
+	exports.setRedCheckers = setRedCheckers;
 }

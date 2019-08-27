@@ -73,6 +73,22 @@ var setGameStatus = function(st) {
 	gameStatus = st;
 }
 
+var getBlackCheckers = function() {
+	return blackCheckers;
+}
+
+var getRedCheckers = function() {
+	return redCheckers;
+}
+
+var setBlackCheckers = function(checkers) {
+	blackCheckers = checkers;
+}
+
+var setRedCheckers = function(checkers) {
+	redCheckers = checkers;
+}
+
 var getStatusMessage = function() {
 	switch (gameStatus) {
 	case BLACKWINS_CAPTURE:
@@ -145,6 +161,10 @@ var opponent = function(color) {
 		return BLACK;
 	}
 	return RED;
+}
+
+var validDirection = function(direction) {
+	return DIRECTIONS.includes(direction.toUpperCase());
 }
 
 var spaceInDirection = function(coords, direction) {
@@ -258,10 +278,10 @@ var makeNonCapturingMove = function(sourceSpace, destSpace) {
 
 var makeCapturingMove = function(sourceSpace, betweenSpace, destSpace) {
 	move(sourceSpace, destSpace);
-	if (turn == RED) {
-		blackCheckers -= 1;
+	if (pieceColor(betweenSpace) == BLACK) {
+		setBlackCheckers(getBlackCheckers() - 1);
 	} else {
-		redCheckers -= 1;
+		setRedCheckers(getBlackCheckers() - 1);
 	}
 	setSpace(betweenSpace, EMPTY);
 	if (canCapture(destSpace)) {
@@ -284,7 +304,7 @@ var executeMove = function(color, space, direction) {
 		if (!coords) {
 			return "Invalid space. Please input the letter and number of your selected piece's space.";
 		}
-		if (!DIRECTIONS.includes(direction)) {
+		if (!validDirection(direction)) {
 			return "Invalid direction. Please select northeast (NE), northwest (NW), southeast (SE) or southwest (SW)."
 		}
 	} else {
@@ -302,7 +322,7 @@ var executeMove = function(color, space, direction) {
 		return "Invalid direction.";
 	}
 	if (!destination) {
-		return "You cannot move a piece off the board.";
+		return "You may not move a piece off the board.";
 	}
 	let otherSpace = spaceContents(destination);
 	if (otherSpace == EMPTY) {
@@ -319,11 +339,11 @@ var executeMove = function(color, space, direction) {
 		let betweenSpace = destination;
 		destination = spaceInDirection(destination, direction);
 		if (!destination) {
-			return "You cannot make a jump that moves your piece off the board.";
+			return "You may not make a jump that moves your piece off the board.";
 		}
 		let captureSpace = spaceContents(destination);
 		if (captureSpace != EMPTY) {
-			return "You cannot make a jump unless the space beyond the opponent's piece is empty.";
+			return "You may not make a jump unless the space beyond the opponent's piece is unoccupied.";
 		}
 		makeCapturingMove(coords, betweenSpace, destination);
 	}
@@ -334,8 +354,7 @@ var executeMove = function(color, space, direction) {
 		setGameStatus(REDWINS_CAPTURE);
 	} else if (redCheckers == 0) {
 		setGameStatus(BLACKWINS_CAPTURE);
-	}
-	if (!anyLegalMoves()) {
+	} else if (!anyLegalMoves()) {
 		if (turn == RED) {
 			setGameStatus(BLACKWINS_BLOCKING);
 		} else {
@@ -348,7 +367,7 @@ var executeMove = function(color, space, direction) {
 	}
 	if (!isKing(piece) && (destination[1] == 0 || destination[1] == 7)) {
 		setSpace(destination, piece + 2);
-		message = "Your Man on space " + space.toLowerCase() + " has become a King. ";
+		message = "Your Man has become a King. ";
 	}
 	return message + colorWord(turn) + "'s turn.";
 }
@@ -361,13 +380,15 @@ exports.BLACK = BLACK;
 exports.RED = RED;
 exports.makeMove = makeMove;
 exports.getGameState = getGameState;
+exports.setup = setup;
 exports.enableDebug = function () {
 	exports.board = board;
-	exports.setup = setup;
 	exports.EMPTY = EMPTY;
 	exports.REDMAN = REDMAN;
 	exports.BLACKMAN = BLACKMAN;
 	exports.REDKING = REDKING;
 	exports.BLACKKING = BLACKKING;
 	exports.setGameStatus = setGameStatus;
+	exports.setBlackCheckers = setBlackCheckers;
+	exports.setRedCheckers = setRedCheckers;
 }

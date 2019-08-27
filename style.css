@@ -4,7 +4,8 @@ body , html{
     height : 100%;
     margin : 0.0;
     padding: 0.0;
-    background-image: url('simple.jpg');
+    background-color: #25274d;
+    
 }
 
 @media screen and (max-width: 1000px) {

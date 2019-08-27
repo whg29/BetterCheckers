@@ -5,10 +5,10 @@ var table = document.getElementById("table");
 var score = document.getElementById("score");
 var black_background = document.getElementById("black_background");
 
-var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;;
-var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-var moveLength = 80;
-var moveDeviation = 10;
+var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;;
+var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var length_of_move = 80;
+var length_of_dev = 10;
 var Dimension = 1;
 var selectedPiece, selectedPieceindex;
 var upRight, upLeft, downLeft, downRight;
@@ -28,14 +28,14 @@ var tableLimit, reverse_tableLimit, moveUpLeft, moveUpRight, moveDownLeft, moveD
 
 
 getDimension();
-switch (windowWidth) {
-    case windowWidth > 640:
-        moveLength = 80;
-        moveDeviation = 10;
+switch (width) {
+    case width > 640:
+        length_of_move = 80;
+        length_of_dev = 10;
         break;
-    case windowWidth < 640:
-        moveLength = 50;
-        moveDeviation = 6;
+    case width < 640:
+        length_of_move = 50;
+        length_of_dev = 6;
 }
 
 
@@ -70,8 +70,8 @@ var checker = function (piece, color, square) {
 }
 
 checker.prototype.set_coordinate = function (X, Y) {
-    var x = (this.x_coordinate - 1) * moveLength + moveDeviation;
-    var y = (this.y_coordinate - 1) * moveLength + moveDeviation;
+    var x = (this.x_coordinate - 1) * length_of_move + length_of_dev;
+    var y = (this.y_coordinate - 1) * length_of_move + length_of_dev;
     this.id.style.top = y + 'px';
     this.id.style.left = x + 'px';
 }
@@ -513,10 +513,10 @@ function declareWinner() {
 
 function getDimension() {
     contor++;
-    windowHeight = window.innerHeight
+    height = window.innerHeight
         || document.documentElement.clientHeight
         || document.body.clientHeight;;
-    windowWidth = window.innerWidth
+    width = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
 }
@@ -529,15 +529,15 @@ document.getElementsByTagName("BODY")[0].onresize = function () {
     getDimension();
     var cpy_bigScreen = bigScreen;
 
-    switch (windowWidth) {
-        case windowWidth < 650:
-            moveLength = 50;
-            moveDeviation = 6;
+    switch (width) {
+        case width < 650:
+            length_of_move = 50;
+            length_of_dev = 6;
             if (bigScreen == 1) bigScreen = -1;
             break;
-        case windowWidth > 650:
-            moveLength = 80;
-            moveDeviation = 10;
+        case width > 650:
+            length_of_move = 80;
+            length_of_dev = 10;
             if (bigScreen == -1) bigScreen = 1;
             break;
         case bigScreen != cpy_bigScreen:

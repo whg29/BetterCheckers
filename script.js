@@ -221,10 +221,10 @@ function showMoves(piece) {
 
 
 function erase_roads(piece) {
-    if (downRight) block[downRight].id.style.background = "#BA7A3A";
-    if (downLeft) block[downLeft].id.style.background = "#BA7A3A";
-    if (upRight) block[upRight].id.style.background = "#BA7A3A";
-    if (upLeft) block[upLeft].id.style.background = "#BA7A3A";
+    if (downRight) block[downRight].id.style.background = "#aaabb8";
+    if (downLeft) block[downLeft].id.style.background = "#aaabb8";
+    if (upRight) block[upRight].id.style.background = "#aaabb8";
+    if (upLeft) block[upLeft].id.style.background = "#aaabb8";
 }
 
 
@@ -357,7 +357,7 @@ function executeMove(X, Y, nSquare) {
 function checkMove(Apiece, tLimit, tLimit_Side, moveDirection, theDirection) {
     if (Apiece.y_coordinate != tLimit) {
         if (Apiece.x_coordinate != tLimit_Side && !block[Apiece.ocupied_square + moveDirection].ocupied) {
-            block[Apiece.ocupied_square + moveDirection].id.style.background = "#704923";
+            block[Apiece.ocupied_square + moveDirection].id.style.background = "#808295";
             theDirection = Apiece.ocupied_square + moveDirection;
         }
         else
@@ -374,7 +374,7 @@ function checkAttack(check, X, Y, negX, negY, squareMove, direction) {
     if (check.x_coordinate * negX >= X * negX && check.y_coordinate * negY <= Y * negY && block[check.ocupied_square + squareMove].ocupied && block[check.ocupied_square + squareMove].pieceId.color != check.color && !block[check.ocupied_square + squareMove * 2].ocupied) {
         mustAttack = true;
         direction = check.ocupied_square + squareMove * 2;
-        block[direction].id.style.background = "#704923";
+        block[direction].id.style.background = "#808295";
         return direction;
     }
     else

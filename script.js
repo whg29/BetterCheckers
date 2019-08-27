@@ -124,7 +124,6 @@ for (var i = 9; i <= 12; i++) {
 }
 
 
-
 // white checkers
 
 for (var i = 1; i <= 4; i++) {

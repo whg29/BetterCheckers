@@ -505,7 +505,7 @@ function declareWinner() {
             score.innerHTML = "Black wins";
             break;
         case "black":
-            score.innerHTML = "Red wins";
+            score.innerHTML = "White wins";
     }
 }
 

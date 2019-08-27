@@ -4,7 +4,7 @@ body , html{
     height : 100%;
     margin : 0.0;
     padding: 0.0;
-    background-color: #333df8;
+    background-color: #25274D;
     
 }
 
@@ -33,10 +33,10 @@ height: 80px;
 }
 
 .white_square{
-background-color:#F0D2B4;
+background-color:#b8b7aa;
 }
 .black_square{
-background-color :#BA7A3A;
+background-color :#aaabb8;
 }
 .clear_float{
 clear: both;

@@ -98,49 +98,58 @@ for (var i = 1; i <= 64; i++)
     block[i] = new square_p(square_class[i], i);
 
 
-// white checkers
+// black checker
+
 for (var i = 1; i <= 4; i++) {
-    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i - 1);
-    red_piece[i].setCoord(0, 0);
-    block[2 * i - 1].ocupied = true;
-    block[2 * i - 1].pieceId = red_piece[i];
-}
-
-for (var i = 5; i <= 8; i++) {
-    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i);
-    red_piece[i].setCoord(0, 0);
-    block[2 * i].ocupied = true;
-    block[2 * i].pieceId = red_piece[i];
-}
-
-for (var i = 9; i <= 12; i++) {
-    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i - 1);
-    red_piece[i].setCoord(0, 0);
-    block[2 * i - 1].ocupied = true;
-    block[2 * i - 1].pieceId = red_piece[i];
-}
-
-// black checkers
-for (var i = 1; i <= 4; i++) {
-    black_piece[i] = new checker(black_checker_class[i], "black", 56 + 2 * i);
+    black_piece[i] = new checker(black_checker_class[i], "black", 56 + 2 * i - 1);
     black_piece[i].setCoord(0, 0);
     block[56 + 2 * i].ocupied = true;
     block[56 + 2 * i].pieceId = black_piece[i];
 }
 
 for (var i = 5; i <= 8; i++) {
-    black_piece[i] = new checker(black_checker_class[i], "black", 40 + 2 * i - 1);
+    black_piece[i] = new checker(black_checker_class[i], "black", 40 + 2 * i);
     black_piece[i].setCoord(0, 0);
     block[40 + 2 * i - 1].ocupied = true;
     block[40 + 2 * i - 1].pieceId = black_piece[i];
 }
 
 for (var i = 9; i <= 12; i++) {
-    black_piece[i] = new checker(black_checker_class[i], "black", 24 + 2 * i);
+    black_piece[i] = new checker(black_checker_class[i], "black", 24 + 2 * i - 1);
     black_piece[i].setCoord(0, 0);
     block[24 + 2 * i].ocupied = true;
     block[24 + 2 * i].pieceId = black_piece[i];
+
+
 }
+
+
+
+// white checkers
+
+for (var i = 1; i <= 4; i++) {
+    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i);
+    red_piece[i].setCoord(0, 0);
+    block[2 * i - 1].ocupied = true;
+    block[2 * i - 1].pieceId = red_piece[i];
+}
+
+for (var i = 5; i <= 8; i++) {
+    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i - 1);
+    red_piece[i].setCoord(0, 0);
+    block[2 * i].ocupied = true;
+    block[2 * i].pieceId = red_piece[i];
+}
+
+for (var i = 9; i <= 12; i++) {
+    red_piece[i] = new checker(red_checker_class[i], "white", 2 * i);
+    red_piece[i].setCoord(0, 0);
+    block[2 * i - 1].ocupied = true;
+    block[2 * i - 1].pieceId = red_piece[i];
+}
+
+
+
 
 
 function getDimension() {

@@ -1,5 +1,5 @@
 var square_class = document.getElementsByClassName("square");
-var red_checker_class = document.getElementsByClassName("white_checker");
+var white_checker_class = document.getElementsByClassName("white_checker");
 var black_checker_class = document.getElementsByClassName("black_checker");
 var table = document.getElementById("table");
 var score = document.getElementById("score");
@@ -16,7 +16,7 @@ var contor = 0, gameOver = 0;
 var bigScreen = 1;
 
 var block = [];
-var red_checker = [];
+var white_checker = [];
 var black_checker = [];
 var the_checker;
 var oneTurn;
@@ -28,13 +28,14 @@ var tableLimit, reverse_tableLimit, moveUpLeft, moveUpRight, moveDownLeft, moveD
 
 
 getDimension();
-if (windowWidth > 640) {
-    moveLength = 80;
-    moveDeviation = 10;
-}
-else {
-    moveLength = 50;
-    moveDeviation = 6;
+switch (windowWidth) {
+    case windowWidth > 640:
+        moveLength = 80;
+        moveDeviation = 10;
+        break;
+    case windowWidth < 640:
+        moveLength = 50;
+        moveDeviation = 6;
 }
 
 
@@ -95,26 +96,25 @@ checker.prototype.check_for_king = function () {
 for (var i = 1; i <= 64; i++)
     block[i] = new square_p(square_class[i], i);
 
-
 for (var i = 1; i <= 4; i++) {
-    red_checker[i] = new checker(red_checker_class[i], "white", 2 * i);
-    red_checker[i].set_coordinate(0, 0);
+    white_checker[i] = new checker(white_checker_class[i], "white", 2 * i);
+    white_checker[i].set_coordinate(0, 0);
     block[2 * i].ocupied = true;
-    block[2 * i].pieceId = red_checker[i];
+    block[2 * i].pieceId = white_checker[i];
 }
 
 for (var i = 5; i <= 8; i++) {
-    red_checker[i] = new checker(red_checker_class[i], "white", 2 * i - 1);
-    red_checker[i].set_coordinate(0, 0);
+    white_checker[i] = new checker(white_checker_class[i], "white", 2 * i - 1);
+    white_checker[i].set_coordinate(0, 0);
     block[2 * i - 1].ocupied = true;
-    block[2 * i - 1].pieceId = red_checker[i];
+    block[2 * i - 1].pieceId = white_checker[i];
 }
 
 for (var i = 9; i <= 12; i++) {
-    red_checker[i] = new checker(red_checker_class[i], "white", 2 * i);
-    red_checker[i].set_coordinate(0, 0);
+    white_checker[i] = new checker(white_checker_class[i], "white", 2 * i);
+    white_checker[i].set_coordinate(0, 0);
     block[2 * i].ocupied = true;
-    block[2 * i].pieceId = red_checker[i];
+    block[2 * i].pieceId = white_checker[i];
 }
 
 
@@ -140,10 +140,9 @@ for (var i = 9; i <= 12; i++) {
 }
 
 
-the_checker = red_checker;
+the_checker = white_checker;
 
 function show_moves(piece) {
-
 
     var match = false;
     forcedCapture = false;
@@ -151,10 +150,10 @@ function show_moves(piece) {
         erase_roads(selectedPiece);
     }
     selectedPiece = piece;
-    var i, j;
-    for (j = 1; j <= 12; j++) {
+    // var i, j;
+    for (var j = 1; j <= 12; j++) {
         if (the_checker[j].id == piece) {
-            i = j;
+            var i = j;
             selectedPieceindex = j;
             match = true;
         }
@@ -173,8 +172,6 @@ function show_moves(piece) {
         return 0;
     }
 
-
-
     tL = 8;
     tLR = 1;
     tLL = 8;
@@ -192,25 +189,27 @@ function show_moves(piece) {
     emDL = 7
 
 
+    switch (the_checker[i].color) {
+        case "white":
+            tableLimit = tL;
+            tableLimitRight = tLR;
+            tableLimitLeft = tLL;
+            moveUpRight = mUR;
+            moveUpLeft = mUL;
+            moveDownRight = mDR;
+            moveDownLeft = mDL;
+            break;
+        case "black":
+            tableLimit = etL;
+            tableLimitRight = etLR;
+            tableLimitLeft = etLL;
+            moveUpRight = emUR;
+            moveUpLeft = emUL;
+            moveDownRight = emDR;
+            moveDownLeft = emDL;
 
-    if (the_checker[i].color == "white") {
-        tableLimit = tL;
-        tableLimitRight = tLR;
-        tableLimitLeft = tLL;
-        moveUpRight = mUR;
-        moveUpLeft = mUL;
-        moveDownRight = mDR;
-        moveDownLeft = mDL;
     }
-    else {
-        tableLimit = etL;
-        tableLimitRight = etLR;
-        tableLimitLeft = etLL;
-        moveUpRight = emUR;
-        moveUpLeft = emUL;
-        moveDownRight = emDR;
-        moveDownLeft = emDL;
-    }
+
 
 
 
@@ -254,18 +253,18 @@ function make_move(index) {
         return false;
     }
 
-
-    if (the_checker[1].color == "white") {
-        cpy_downRight = upRight;
-        cpy_downLeft = upLeft;
-        cpy_upLeft = downLeft;
-        cpy_upRight = downRight;
-    }
-    else {
-        cpy_downRight = upLeft;
-        cpy_downLeft = upRight;
-        cpy_upLeft = downRight;
-        cpy_upRight = downLeft;
+    switch (the_checker[1].color) {
+        case "white":
+            cpy_downRight = upRight;
+            cpy_downLeft = upLeft;
+            cpy_upLeft = downLeft;
+            cpy_upRight = downRight;
+            break;
+        case "black":
+            cpy_downRight = upLeft;
+            cpy_downLeft = upRight;
+            cpy_upLeft = downRight;
+            cpy_upRight = downLeft;
     }
 
     if (forcedCapture)
@@ -276,28 +275,30 @@ function make_move(index) {
 
     if (index == cpy_upRight) {
         is_valid_move = true;
-        if (the_checker[1].color == "white") {
-
-            execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
-
-            if (forcedCapture) eliminateCheck(index - 9);
+        switch (the_checker[1].color) {
+            case "white":
+                execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
+                if (forcedCapture) eliminateCheck(index - 9);
+                break;
+            case "black":
+                execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
+                if (forcedCapture) eliminateCheck(index + 7)
         }
-        else {
-            execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
-            if (forcedCapture) eliminateCheck(index + 7);
-        }
+
     }
 
     if (index == cpy_upLeft) {
 
         is_valid_move = true;
-        if (the_checker[1].color == "white") {
-            execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
-            if (forcedCapture) eliminateCheck(index - 7);
-        }
-        else {
-            execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
-            if (forcedCapture) eliminateCheck(index + 9);
+
+        switch (the_checker[1].color) {
+            case "white":
+                execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
+                if (forcedCapture) eliminateCheck(index - 7);
+                break;
+            case "black":
+                execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
+                if (forcedCapture) eliminateCheck(index + 9);
         }
     }
 
@@ -305,26 +306,32 @@ function make_move(index) {
 
         if (index == cpy_downRight) {
             is_valid_move = true;
-            if (the_checker[1].color == "white") {
-                execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
-                if (forcedCapture) eliminateCheck(index + 7);
-            }
-            else {
-                execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
-                if (forcedCapture) eliminateCheck(index - 9);
+
+            switch (the_checker[1].color) {
+                case "white":
+                    execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
+                    if (forcedCapture) eliminateCheck(index + 7);
+                    break;
+                case "black":
+                    execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
+                    if (forcedCapture) eliminateCheck(index - 9);
+
             }
         }
 
         if (index == cpy_downLeft) {
             is_valid_move = true;
-            if (the_checker[1].color == "white") {
-                execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
-                if (forcedCapture) eliminateCheck(index + 9);
+
+            switch (the_checker[1].color) {
+                case "white":
+                    execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
+                    if (forcedCapture) eliminateCheck(index + 9);
+                    break;
+                case "black":
+                    execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
+                    if (forcedCapture) eliminateCheck(index - 7);
             }
-            else {
-                execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
-                if (forcedCapture) eliminateCheck(index - 7);
-            }
+
         }
     }
 
@@ -356,7 +363,6 @@ function make_move(index) {
 
 
 function execute_move(x_val, y_val, nSquare) {
-    // schimb coordonate piesei mutate
     the_checker[selectedPieceindex].shift_coordinate(x_val, y_val);
     the_checker[selectedPieceindex].set_coordinate(0, 0);
 
@@ -415,23 +421,27 @@ function capture_moves(ckc) {
     downRight = undefined;
     downLeft = undefined;
 
+
     if (ckc.king) {
-        if (ckc.color == "white") {
-            upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
-            upLeft = verify_capture(ckc, 3, 3, 1, -1, -9, upLeft);
+        switch (ckc.color) {
+            case "white":
+                upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
+                upLeft = verify_capture(ckc, 3, 3, 1, -1, -9, upLeft);
+                break;
+            case "black":
+                downLeft = verify_capture(ckc, 3, 6, 1, 1, 7, downLeft);
+                downRight = verify_capture(ckc, 6, 6, -1, 1, 9, downRight);
         }
-        else {
+    }
+    switch (ckc.color) {
+        case "white":
             downLeft = verify_capture(ckc, 3, 6, 1, 1, 7, downLeft);
             downRight = verify_capture(ckc, 6, 6, -1, 1, 9, downRight);
-        }
-    }
-    if (ckc.color == "white") {
-        downLeft = verify_capture(ckc, 3, 6, 1, 1, 7, downLeft);
-        downRight = verify_capture(ckc, 6, 6, -1, 1, 9, downRight);
-    }
-    else {
-        upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
-        upLeft = verify_capture(ckc, 3, 3, 1, -1, -9, upLeft);
+            break;
+        case "black":
+            upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
+            upLeft = verify_capture(ckc, 3, 3, 1, -1, -9, upLeft);
+
     }
 
     if (ckc.color == "black" && (upRight || upLeft || downLeft || downRight)) {
@@ -451,31 +461,34 @@ function capture_moves(ckc) {
         upRight = upLeft;
         upLeft = p;
     }
-    if (upLeft != undefined || upRight != undefined || downRight != undefined || downLeft != undefined) {
-        return true;
 
+    switch (upLeft, upRight, downRight, downLeft) {
+        case upLeft != undefined || upRight != undefined || downRight != undefined || downLeft != undefined:
+            return true;
     }
     return false;
 }
 
 function switch_turns(ckc) {
-    if (ckc.color == "white")
-        the_checker = black_checker;
-    else
-        the_checker = red_checker;
+
+    switch (ckc.color) {
+        case "white":
+            the_checker = black_checker;
+            break;
+        case "black":
+            the_checker = white_checker;
+    }
 }
 
 function check_loss() {
-    var i;
-    for (i = 1; i <= 12; i++)
+    for (var i = 1; i <= 12; i++)
         if (the_checker[i].alive)
             return false;
     return true;
 }
 
 function check_for_moves() {
-    var i;
-    for (i = 1; i <= 12; i++)
+    for (var i = 1; i <= 12; i++)
         if (the_checker[i].alive && show_moves(the_checker[i].id)) {
             erase_roads(0);
             return false;
@@ -487,10 +500,13 @@ function declareWinner() {
     black_background.style.display = "inline";
     score.style.display = "block";
     0
-    if (the_checker[1].color == "white")
-        score.innerHTML = "Black wins";
-    else
-        score.innerHTML = "Red wins";
+    switch (the_checker[1].color) {
+        case "white":
+            score.innerHTML = "Black wins";
+            break;
+        case "black":
+            score.innerHTML = "Red wins";
+    }
 }
 
 
@@ -513,23 +529,24 @@ document.getElementsByTagName("BODY")[0].onresize = function () {
     getDimension();
     var cpy_bigScreen = bigScreen;
 
-    if (windowWidth < 650) {
-        moveLength = 50;
-        moveDeviation = 6;
-        if (bigScreen == 1) bigScreen = -1;
-    }
-    if (windowWidth > 650) {
-        moveLength = 80;
-        moveDeviation = 10;
-        if (bigScreen == -1) bigScreen = 1;
+    switch (windowWidth) {
+        case windowWidth < 650:
+            moveLength = 50;
+            moveDeviation = 6;
+            if (bigScreen == 1) bigScreen = -1;
+            break;
+        case windowWidth > 650:
+            moveLength = 80;
+            moveDeviation = 10;
+            if (bigScreen == -1) bigScreen = 1;
+            break;
+        case bigScreen != cpy_bigScreen:
+            for (var i = 1; i <= 12; i++) {
+                black_checker[i].setCoord(0, 0);
+                white_checker[i].setCoord(0, 0);
+            }
     }
 
-    if (bigScreen != cpy_bigScreen) {
-        for (var i = 1; i <= 12; i++) {
-            black_checker[i].setCoord(0, 0);
-            red_checker[i].setCoord(0, 0);
-        }
-    }
 }
 
 

@@ -12,13 +12,13 @@ var moveDeviation = 10;
 var Dimension = 1;
 var selectedPiece, selectedPieceindex;
 var upRight, upLeft, downLeft, downRight;
-var ctr = 0, gameOver = 0;
+var contor = 0, gameOver = 0;
 var bigScreen = 1;
 
 var block = [];
 var white_checker = [];
 var black_checker = [];
-var cun_chkr;
+var the_checker;
 var oneTurn;
 var anotherMove;
 var forcedCapture = false;
@@ -140,11 +140,7 @@ for (var i = 9; i <= 12; i++) {
 }
 
 
-<<<<<<< HEAD
-cun_chkr = red_checker;
-=======
 the_checker = white_checker;
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
 
 function show_moves(piece) {
 
@@ -154,28 +150,21 @@ function show_moves(piece) {
         erase_roads(selectedPiece);
     }
     selectedPiece = piece;
-<<<<<<< HEAD
-    var i, j;
-    for (j = 1; j <= 12; j++) {
-        if (cun_chkr[j].id == piece) {
-            i = j;
-=======
     // var i, j;
     for (var j = 1; j <= 12; j++) {
         if (the_checker[j].id == piece) {
             var i = j;
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
             selectedPieceindex = j;
             match = true;
         }
     }
 
-    if (oneTurn && !captureMoves(oneTurn)) {
-        switchTurns(oneTurn);
+    if (oneTurn && !capture_moves(oneTurn)) {
+        switch_turns(oneTurn);
         oneTurn = undefined;
         return false;
     }
-    if (oneTurn && oneTurn != cun_chkr[i]) {
+    if (oneTurn && oneTurn != the_checker[i]) {
         return false;
     }
 
@@ -219,46 +208,22 @@ function show_moves(piece) {
             moveDownRight = emDR;
             moveDownLeft = emDL;
 
-<<<<<<< HEAD
-    if (cun_chkr[i].color == "white") {
-        tableLimit = tL;
-        tableLimitRight = tLR;
-        tableLimitLeft = tLL;
-        moveUpRight = mUR;
-        moveUpLeft = mUL;
-        moveDownRight = mDR;
-        moveDownLeft = mDL;
-    }
-    else {
-        tableLimit = etL;
-        tableLimitRight = etLR;
-        tableLimitLeft = etLL;
-        moveUpRight = emUR;
-        moveUpLeft = emUL;
-        moveDownRight = emDR;
-        moveDownLeft = emDL;
-=======
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
     }
 
 
 
-<<<<<<< HEAD
-    captureMoves(cun_chkr[i]);
-=======
 
     capture_moves(the_checker[i]);
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
 
 
 
 
     if (!forcedCapture) {
-        downLeft = check_move(cun_chkr[i], tableLimit, tableLimitRight, moveUpRight, downLeft);
-        downRight = check_move(cun_chkr[i], tableLimit, tableLimitLeft, moveUpLeft, downRight);
-        if (cun_chkr[i].king) {
-            upLeft = check_move(cun_chkr[i], reverse_tableLimit, tableLimitRight, moveDownRight, upLeft);
-            upRight = check_move(cun_chkr[i], reverse_tableLimit, tableLimitLeft, moveDownLeft, upRight)
+        downLeft = check_move(the_checker[i], tableLimit, tableLimitRight, moveUpRight, downLeft);
+        downRight = check_move(the_checker[i], tableLimit, tableLimitLeft, moveUpLeft, downRight);
+        if (the_checker[i].king) {
+            upLeft = check_move(the_checker[i], reverse_tableLimit, tableLimitRight, moveDownRight, upLeft);
+            upRight = check_move(the_checker[i], reverse_tableLimit, tableLimitLeft, moveDownLeft, upRight)
         }
     }
     if (downLeft || downRight || upLeft || upRight) {
@@ -288,20 +253,6 @@ function make_move(index) {
         return false;
     }
 
-<<<<<<< HEAD
-
-    if (cun_chkr[1].color == "white") {
-        cpy_downRight = upRight;
-        cpy_downLeft = upLeft;
-        cpy_upLeft = downLeft;
-        cpy_upRight = downRight;
-    }
-    else {
-        cpy_downRight = upLeft;
-        cpy_downLeft = upRight;
-        cpy_upLeft = downRight;
-        cpy_upRight = downLeft;
-=======
     switch (the_checker[1].color) {
         case "white":
             cpy_downRight = upRight;
@@ -314,7 +265,6 @@ function make_move(index) {
             cpy_downLeft = upRight;
             cpy_upLeft = downRight;
             cpy_upRight = downLeft;
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
     }
 
     if (forcedCapture)
@@ -325,17 +275,6 @@ function make_move(index) {
 
     if (index == cpy_upRight) {
         is_valid_move = true;
-<<<<<<< HEAD
-        if (cun_chkr[1].color == "white") {
-
-            execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
-
-            if (forcedCapture) eliminateCheck(index - 9);
-        }
-        else {
-            execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
-            if (forcedCapture) eliminateCheck(index + 7);
-=======
         switch (the_checker[1].color) {
             case "white":
                 execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
@@ -344,7 +283,6 @@ function make_move(index) {
             case "black":
                 execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
                 if (forcedCapture) eliminateCheck(index + 7)
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
         }
 
     }
@@ -352,15 +290,6 @@ function make_move(index) {
     if (index == cpy_upLeft) {
 
         is_valid_move = true;
-<<<<<<< HEAD
-        if (cun_chkr[1].color == "white") {
-            execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
-            if (forcedCapture) eliminateCheck(index - 7);
-        }
-        else {
-            execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
-            if (forcedCapture) eliminateCheck(index + 9);
-=======
 
         switch (the_checker[1].color) {
             case "white":
@@ -370,23 +299,13 @@ function make_move(index) {
             case "black":
                 execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
                 if (forcedCapture) eliminateCheck(index + 9);
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
         }
     }
 
-    if (cun_chkr[selectedPieceindex].king) {
+    if (the_checker[selectedPieceindex].king) {
 
         if (index == cpy_downRight) {
             is_valid_move = true;
-<<<<<<< HEAD
-            if (cun_chkr[1].color == "white") {
-                execute_move(multiplier * 1, multiplier * -1, multiplier * -7);
-                if (forcedCapture) eliminateCheck(index + 7);
-            }
-            else {
-                execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
-                if (forcedCapture) eliminateCheck(index - 9);
-=======
 
             switch (the_checker[1].color) {
                 case "white":
@@ -397,21 +316,11 @@ function make_move(index) {
                     execute_move(multiplier * 1, multiplier * 1, multiplier * 9);
                     if (forcedCapture) eliminateCheck(index - 9);
 
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
             }
         }
 
         if (index == cpy_downLeft) {
             is_valid_move = true;
-<<<<<<< HEAD
-            if (cun_chkr[1].color == "white") {
-                execute_move(multiplier * -1, multiplier * -1, multiplier * -9);
-                if (forcedCapture) eliminateCheck(index + 9);
-            }
-            else {
-                execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
-                if (forcedCapture) eliminateCheck(index - 7);
-=======
 
             switch (the_checker[1].color) {
                 case "white":
@@ -421,32 +330,31 @@ function make_move(index) {
                 case "black":
                     execute_move(multiplier * -1, multiplier * 1, multiplier * 7);
                     if (forcedCapture) eliminateCheck(index - 7);
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
             }
 
         }
     }
 
     erase_roads(0);
-    cun_chkr[selectedPieceindex].check_for_king();
+    the_checker[selectedPieceindex].check_for_king();
 
 
     if (is_valid_move) {
 
         anotherMove = undefined;
         if (forcedCapture) {
-            anotherMove = captureMoves(cun_chkr[selectedPieceindex]);
+            anotherMove = capture_moves(the_checker[selectedPieceindex]);
         }
         if (anotherMove) {
-            oneTurn = cun_chkr[selectedPieceindex];
+            oneTurn = the_checker[selectedPieceindex];
             show_moves(oneTurn);
         }
         else {
             oneTurn = undefined;
-            switchTurns(cun_chkr[1]);
-            gameOver = checkLoss();
+            switch_turns(the_checker[1]);
+            gameOver = check_loss();
             if (gameOver) { setTimeout(declareWinner(), 3000); return false };
-            gameOver = checkMoves();
+            gameOver = check_for_moves();
             if (gameOver) { setTimeout(declareWinner(), 3000); return false };
         }
     }
@@ -455,15 +363,6 @@ function make_move(index) {
 
 
 function execute_move(x_val, y_val, nSquare) {
-<<<<<<< HEAD
-    cun_chkr[selectedPieceindex].shift_coordinate(x_val, y_val);
-    cun_chkr[selectedPieceindex].set_coordinate(0, 0);
-    block[cun_chkr[selectedPieceindex].ocupied_square].ocupied = false;
-    block[cun_chkr[selectedPieceindex].ocupied_square + nSquare].ocupied = true;
-    block[cun_chkr[selectedPieceindex].ocupied_square + nSquare].pieceId = block[cun_chkr[selectedPieceindex].ocupied_square].pieceId;
-    block[cun_chkr[selectedPieceindex].ocupied_square].pieceId = undefined;
-    cun_chkr[selectedPieceindex].ocupied_square += nSquare;
-=======
     the_checker[selectedPieceindex].shift_coordinate(x_val, y_val);
     the_checker[selectedPieceindex].set_coordinate(0, 0);
 
@@ -474,7 +373,6 @@ function execute_move(x_val, y_val, nSquare) {
     block[the_checker[selectedPieceindex].ocupied_square].pieceId = undefined;
     the_checker[selectedPieceindex].ocupied_square += nSquare;
 
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
 }
 
 function check_move(Apiece, tLimit, tLimit_Side, moveDirection, theDirection) {
@@ -493,7 +391,7 @@ function check_move(Apiece, tLimit, tLimit_Side, moveDirection, theDirection) {
 
 
 
-function verifyCap(check, x_val, y_val, negative_x, negative_y, squareMove, direction) {
+function verify_capture(check, x_val, y_val, negative_x, negative_y, squareMove, direction) {
     if (check.x_coordinate * negative_x >= x_val * negative_x && check.y_coordinate * negative_y <= y_val * negative_y && block[check.ocupied_square + squareMove].ocupied && block[check.ocupied_square + squareMove].pieceId.color != check.color && !block[check.ocupied_square + squareMove * 2].ocupied) {
         forcedCapture = true;
         direction = check.ocupied_square + squareMove * 2;
@@ -506,14 +404,8 @@ function verifyCap(check, x_val, y_val, negative_x, negative_y, squareMove, dire
 }
 
 function eliminateCheck(indexx) {
-    switch(indexx){
-        case (indexx<1):
+    if (indexx < 1 || indexx > 64)
         return 0;
-        case (indexx>64):
-        return 0;
-    }
-    //if (indexx < 1 || indexx > 64)
-        //return 0;
 
     var x = block[indexx].pieceId;
     x.alive = false;
@@ -522,33 +414,15 @@ function eliminateCheck(indexx) {
 }
 
 
-function captureMoves(ckc) {
+function capture_moves(ckc) {
 
-    upRight;
-    upLeft;
-    downRight;
-    downLeft;
+    upRight = undefined;
+    upLeft = undefined;
+    downRight = undefined;
+    downLeft = undefined;
 
 
     if (ckc.king) {
-<<<<<<< HEAD
-        if (ckc.color == "white") {
-            upRight = verifyCap(ckc, 6, 3, -1, -1, -7, upRight);
-            upLeft = verifyCap(ckc, 3, 3, 1, -1, -9, upLeft);
-        }
-        else {
-            downLeft = verifyCap(ckc, 3, 6, 1, 1, 7, downLeft);
-            downRight = verifyCap(ckc, 6, 6, -1, 1, 9, downRight);
-        }
-    }
-    if (ckc.color == "white") {
-        downLeft = verifyCap(ckc, 3, 6, 1, 1, 7, downLeft);
-        downRight = verifyCap(ckc, 6, 6, -1, 1, 9, downRight);
-    }
-    else {
-        upRight = verifyCap(ckc, 6, 3, -1, -1, -7, upRight);
-        upLeft = verifyCap(ckc, 3, 3, 1, -1, -9, upLeft);
-=======
         switch (ckc.color) {
             case "white":
                 upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
@@ -568,7 +442,6 @@ function captureMoves(ckc) {
             upRight = verify_capture(ckc, 6, 3, -1, -1, -7, upRight);
             upLeft = verify_capture(ckc, 3, 3, 1, -1, -9, upLeft);
 
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
     }
 
     if (ckc.color == "black" && (upRight || upLeft || downLeft || downRight)) {
@@ -596,19 +469,6 @@ function captureMoves(ckc) {
     return false;
 }
 
-<<<<<<< HEAD
-function switchTurns(ckc) {
-    if (ckc.color == "white")
-        cun_chkr = black_checker;
-    else
-        cun_chkr = red_checker;
-}
-
-function checkLoss() {
-    var i;
-    for (i = 1; i <= 12; i++)
-        if (cun_chkr[i].alive)
-=======
 function switch_turns(ckc) {
 
     switch (ckc.color) {
@@ -623,21 +483,13 @@ function switch_turns(ckc) {
 function check_loss() {
     for (var i = 1; i <= 12; i++)
         if (the_checker[i].alive)
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
             return false;
     return true;
 }
 
-<<<<<<< HEAD
-function checkMoves() {
-    var i;
-    for (i = 1; i <= 12; i++)
-        if (cun_chkr[i].alive && show_moves(cun_chkr[i].id)) {
-=======
 function check_for_moves() {
     for (var i = 1; i <= 12; i++)
         if (the_checker[i].alive && show_moves(the_checker[i].id)) {
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
             erase_roads(0);
             return false;
         }
@@ -648,12 +500,6 @@ function declareWinner() {
     black_background.style.display = "inline";
     score.style.display = "block";
     0
-<<<<<<< HEAD
-    if (cun_chkr[1].color == "white")
-        score.innerHTML = "Winner: Black!!";
-    else
-        score.innerHTML = "Winner: Red!!";
-=======
     switch (the_checker[1].color) {
         case "white":
             score.innerHTML = "Black wins";
@@ -661,13 +507,12 @@ function declareWinner() {
         case "black":
             score.innerHTML = "Red wins";
     }
->>>>>>> 9bb23036af78c4861a802aad65c72b5a16c63a04
 }
 
 
 
 function getDimension() {
-    ctr+=1;
+    contor++;
     windowHeight = window.innerHeight
         || document.documentElement.clientHeight
         || document.body.clientHeight;;
@@ -703,7 +548,3 @@ document.getElementsByTagName("BODY")[0].onresize = function () {
     }
 
 }
-
-
-
-

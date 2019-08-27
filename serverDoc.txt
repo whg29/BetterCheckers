@@ -2,9 +2,10 @@ Better Checkers
 By Walt, In, Rahul, Kang
 
 Server-Side Documentation
+For "server.js" and "checkerBoard.js"
 
 ==Running the Server==
-Start up server.js using Node.
+Start up server.js using Node. This will run checkerBoard.js.
 
 ==Submitting Moves==
 All the client needs to do is submit a move. The server will do all the calculations of whether or not the move is valid. The client does not need to do any input validation or move checking.

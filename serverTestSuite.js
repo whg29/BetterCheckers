@@ -25,6 +25,8 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "3c", "NE"));
 // console.log(game.makeMove(game.BLACK, "c3", "northeast"));
 //
+// //The following test cases test section B of the test case document
+//
 // //Legal move selection
 // resetGame();
 // console.log("Legal move selection");
@@ -81,6 +83,10 @@ var resetGame = function() {
 // console.log(game.makeMove(game.BLACK, "b6", "SE"));
 // console.log(game.makeMove(game.RED, "d4", "SE"));
 //
+// //Section B results - All pass
+//
+// //The following test cases test section C of the test case document
+//
 // //Ending the game by capture
 // clearBoard();
 // console.log("Victory by capture");
@@ -105,3 +111,5 @@ var resetGame = function() {
 // console.log(game.makeMove(game.RED, "g3", "SW"));
 // console.log(game.makeMove(game.BLACK, "c7", "NE"));
 // console.log(game.makeMove(game.RED, "d6", "NW"));
+//
+// //Section C results - All pass
